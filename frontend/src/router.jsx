@@ -10,12 +10,12 @@ import News from './pages/News/News.jsx'
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Layout />}>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/new-account" element={<NewAccount />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/my-profile" element={<MyProfile />} />
-      <Route path="/news/:id" element={<News />} />
+      <Route path='/' element={<Home />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/new-account' element={<NewAccount />} />
+      <Route path='/forgot-password' element={<ForgotPassword />} />
+      <Route path='/my-profile' element={<MyProfile />} />
+      <Route path='/news/:id' element={<News />} />
     </Route>
   )
 )

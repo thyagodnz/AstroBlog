@@ -6,16 +6,16 @@ const routes = Router()
 
 routes.get('/users', getUsers)
 routes.post('/users', createUser)
-routes.delete('/users/:id', deleteUser)
-routes.put('/users/:id', updateUser)
 routes.post('/login', loginUser)
+routes.put('/users/:id', updateUser)
+routes.delete('/users/:id', deleteUser)
 
 routes.get('/news', getNews)
-routes.post('/news', createNews)
-routes.delete('/news/:id', deleteNews)
-routes.put('/news/:id', updateNews)
 routes.get('/news/:id', getNewsById)
+routes.post('/news', createNews)
 routes.post('/news/:id/comments', addComment)
+routes.put('/news/:id', updateNews)
+routes.delete('/news/:id', deleteNews)
 routes.delete('/news/:newsId/comments/:commentId', deleteComment)
 
 export default routes

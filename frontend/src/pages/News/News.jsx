@@ -8,7 +8,7 @@ import { formatDistanceToNow, format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 
 function News() {
-    
+
     const { id } = useParams()
     const navigate = useNavigate()
     const [news, setNews] = useState(null)
@@ -33,17 +33,13 @@ function News() {
         return <Loading />
     }
 
-    const date = parseISO(news.createdAt)
-    const formattedDate = format(date, 'dd/MM/yyyy')
-    const formattedTime = format(date, 'HH:mm')
-
     async function handleCommentSubmit(e) {
         e.preventDefault()
 
         if (!comment.trim()) return
 
         if (!user) {
-            alert('Faça login para adicionar um comentário.')
+            alert('Faça login para adicionar um comentário')
             navigate('/login')
             return
         }
@@ -86,6 +82,10 @@ function News() {
         }
     }
 
+    const date = parseISO(news.createdAt)
+    const formattedDate = format(date, 'dd/MM/yyyy')
+    const formattedTime = format(date, 'HH:mm')
+
     return (
         <div className='page'>
             <h1 className='news-title'>{news.title}</h1>
@@ -100,28 +100,27 @@ function News() {
             <img
                 src={news.image}
                 alt={news.imageDescription || news.title}
-                className="news-image"
+                className='news-image'
             />
 
             {news.imageDescription && (
-                <p className="news-image-description">{news.imageDescription}</p>
+                <p className='news-image-description'>{news.imageDescription}</p>
             )}
 
-            {/* Seção de Comentários */}
-            <div className="comments-section">
+            <div className='comments-section'>
                 <h3>Comentários</h3>
 
-                <form onSubmit={handleCommentSubmit} className="comment-form">
-                    <div className="textarea-wrapper">
+                <form onSubmit={handleCommentSubmit} className='comment-form'>
+                    <div className='textarea-wrapper'>
                         <textarea
-                            className="comment-input"
-                            placeholder="Adicione um comentário..."
+                            className='comment-input'
+                            placeholder='Adicione um comentário...'
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
-                            rows="3"
+                            rows='3'
                             required
                         />
-                        <button type="submit" className="comment-submit-button" disabled={isSubmitting}>
+                        <button type='submit' className='comment-submit-button' disabled={isSubmitting}>
                             {isSubmitting ? '...' : '➤'}
                         </button>
                     </div>
@@ -129,21 +128,21 @@ function News() {
 
                 {news.comments && news.comments.length > 0 ? (
                     news.comments.map((c) => (
-                        <div key={c._id} className="comment">
-                            <p className="comment-header">
-                                <span className="comment-user">{c.user?.name || 'Usuário desconhecido'}</span>
-                                <span className="comment-date">
+                        <div key={c._id} className='comment'>
+                            <p className='comment-header'>
+                                <span className='comment-user'>{c.user?.name || 'Usuário desconhecido'}</span>
+                                <span className='comment-date'>
                                     • {formatDistanceToNow(new Date(c.createdAt), {
                                         addSuffix: true,
                                         locale: ptBR
                                     })}
                                 </span>
                             </p>
-                            <p className="comment-content">{c.content}</p>
+                            <p className='comment-content'>{c.content}</p>
 
                             {user && c.user?._id === user.id && (
                                 <button
-                                    className="delete-comment-button"
+                                    className='delete-comment-button'
                                     onClick={() => handleDeleteComment(c._id)}
                                 >
                                     Excluir
@@ -152,7 +151,7 @@ function News() {
                         </div>
                     ))
                 ) : (
-                    <p className="no-comments">Nenhum comentário ainda.</p>
+                    <p className='no-comments'>Nenhum comentário ainda.</p>
                 )}
             </div>
         </div>

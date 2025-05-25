@@ -31,20 +31,18 @@ function Home() {
   return (
     <div className='page'>
 
-      {/* Notícia em destaque */}
       {firstNews && (
         <div className='featured-news' onClick={() => goToNews(firstNews._id)}>
           <img src={firstNews.image} alt={firstNews.title} className='featured-image' />
-          <h2 className='featured-title'>{firstNews.title}</h2>
+          <h1 className='featured-title'>{firstNews.title}</h1>
         </div>
       )}
 
-      {/* Outras notícias */}
       <div className='news-grid'>
         {otherNews.map((news) => (
           <div key={news._id} className='news-card' onClick={() => goToNews(news._id)}>
             <img src={news.image} alt={news.title} className='news-card-image' />
-            <h3 className='news-card-title'>{news.title}</h3>
+            <h2 className='news-card-title'>{news.title}</h2>
           </div>
         ))}
       </div>
