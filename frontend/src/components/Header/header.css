@@ -4,8 +4,11 @@
     align-items: center;
     background-color: #460260;
     width: 100%;
-    max-height: 100px;
+    min-height: 55px;
     padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 
     & h1 {
         font-family: 'Passion One', sans-serif;
@@ -13,9 +16,9 @@
         font-weight: bold;
         justify-content: center;
         color: white;
-        padding-top: 10px;
-        padding-bottom: 10px;
         cursor: pointer;
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+        user-select: none;
     }
 }
 
@@ -34,5 +37,5 @@
 }
 
 .login-button:hover {
-    background-color: #f0f0f0;
+    opacity: 0.9;
 }

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const userSchema = mongoose.Schema({
     name: {
@@ -14,10 +14,14 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    collaborator: {
+        type: Boolean,
+        default: false
+    },
     createdAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     }
-});
+})
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema)
