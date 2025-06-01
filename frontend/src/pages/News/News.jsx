@@ -111,16 +111,20 @@ function News() {
                 <h3>Comentários</h3>
 
                 <form onSubmit={handleCommentSubmit} className='comment-form'>
-                    <div className='textarea-wrapper'>
+                    <div className='comment-form-content'>
                         <textarea
                             className='comment-input'
                             placeholder='Adicione um comentário...'
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
-                            rows='3'
+                            rows='2'
                             required
                         />
-                        <button type='submit' className='comment-submit-button' disabled={isSubmitting}>
+                        <button
+                            type='submit'
+                            className='comment-submit-button'
+                            disabled={isSubmitting}
+                        >
                             {isSubmitting ? '...' : '➤'}
                         </button>
                     </div>
@@ -129,16 +133,22 @@ function News() {
                 {news.comments && news.comments.length > 0 ? (
                     news.comments.map((c) => (
                         <div key={c._id} className='comment'>
-                            <p className='comment-header'>
-                                <span className='comment-user'>{c.user?.name || 'Usuário desconhecido'}</span>
-                                <span className='comment-date'>
-                                    • {formatDistanceToNow(new Date(c.createdAt), {
-                                        addSuffix: true,
-                                        locale: ptBR
-                                    })}
-                                </span>
-                            </p>
-                            <p className='comment-content'>{c.content}</p>
+                            <div className='profile-picture'>
+                                {c.user?.name ? c.user.name.charAt(0).toUpperCase() : '?'}
+                            </div>
+
+                            <div className='comment-info'>
+                                <div className='comment-header'>
+                                    <span className='comment-user'>{c.user?.name || 'Usuário desconhecido'}</span>
+                                    <span className='comment-date'>
+                                        • {formatDistanceToNow(new Date(c.createdAt), {
+                                            addSuffix: true,
+                                            locale: ptBR
+                                        })}
+                                    </span>
+                                </div>
+                                <div className='comment-content'>{c.content}</div>
+                            </div>
 
                             {user && c.user?._id === user.id && (
                                 <button
