@@ -6,6 +6,7 @@ import Loading from '../../components/Loading/Loading.jsx'
 import { useAuth } from '../../contexts/AuthContext.jsx'
 import { formatDistanceToNow, format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { BsPatchCheckFill } from 'react-icons/bs'
 
 function News() {
 
@@ -147,7 +148,11 @@ function News() {
                                         onClick={() => navigate(`/user-profile/${c.user._id}`)}
                                     >
                                         {c.user?.name || 'Usuário desconhecido'}
+                                        {c.user?.collaborator && (
+                                            <BsPatchCheckFill className='verified-icon-p' title='Colaborador' />
+                                        )}
                                     </span>
+
                                     <span className='comment-date'>
                                         • {formatDistanceToNow(new Date(c.createdAt), {
                                             addSuffix: true,

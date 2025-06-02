@@ -26,6 +26,13 @@
     color: #222;
 }
 
+.verified-icon-g {
+    fill: #460260;
+    margin-left: 5px;
+    vertical-align: middle;
+    font-size: 28px;
+}
+
 .user-email {
     font-size: 16px;
     color: #444;

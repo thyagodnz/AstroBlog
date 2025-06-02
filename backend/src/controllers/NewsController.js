@@ -68,7 +68,7 @@ async function updateNews(req, res) {
 async function getNewsById(req, res) {
     const id = req.params.id
     try {
-        const news = await News.findById(id).populate('comments.user', 'name _id')
+        const news = await News.findById(id).populate('comments.user', 'name _id collaborator')
 
         if (!news) {
             return res.status(404).json({ res: 'Notícia não encontrada' })

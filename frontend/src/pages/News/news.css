@@ -109,6 +109,13 @@
     color: #333;
 }
 
+.verified-icon-p {
+    fill: #460260;
+    margin-left: 5px;
+    vertical-align: middle;
+    font-size: 15px;
+}
+
 .comment-user:hover {
     cursor: pointer;
     text-decoration: underline;

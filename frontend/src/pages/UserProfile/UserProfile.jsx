@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import EditProfileModal from '../../components/EditProfileModal/EditProfileModal.jsx'
 import Loading from '../../components/Loading/Loading.jsx'
+import { BsPatchCheckFill } from 'react-icons/bs'
 
 function UserProfile() {
     const { user, logout, login } = useAuth()
@@ -51,7 +52,12 @@ function UserProfile() {
                     {profileUser.name ? profileUser.name.charAt(0).toUpperCase() : '?'}
                 </div>
 
-                <h1 className='user-name'>{profileUser.name || 'Usuário'}</h1>
+                <h1 className='user-name'>
+                    {profileUser.name}
+                    {profileUser.collaborator && (
+                        <BsPatchCheckFill className='verified-icon-g' title='Colaborador' />
+                    )}
+                </h1>
 
                 {isOwnProfile && (
                     <span className='user-email'>{profileUser.email}</span>
