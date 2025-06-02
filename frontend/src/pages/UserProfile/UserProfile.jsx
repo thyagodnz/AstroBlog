@@ -67,9 +67,18 @@ function UserProfile() {
                         >
                             Editar perfil
                         </button>
-                        <button className='be-collaborator-button'>
-                            Tornar-se colaborador
+
+                        <button
+                            className='be-collaborator-button'
+                            onClick={() =>
+                                navigate(
+                                    profileUser.collaborator ? '/add-news' : '/be-collaborator'
+                                )
+                            }
+                        >
+                            {profileUser.collaborator ? 'Adicionar notícia' : 'Tornar-se colaborador'}
                         </button>
+
                         <button
                             onClick={handleLogout}
                             className='logout-button'
