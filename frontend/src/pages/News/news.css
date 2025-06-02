@@ -85,6 +85,11 @@
     user-select: none;
 }
 
+.profile-picture:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 .comment-info {
     display: flex;
     flex-direction: column;
@@ -102,6 +107,11 @@
 .comment-user {
     font-weight: 600;
     color: #333;
+}
+
+.comment-user:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .comment-date {

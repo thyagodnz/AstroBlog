@@ -10,19 +10,19 @@
 
 .featured-image {
     width: 100%;
-    max-height: 200px;
+    max-height: 220px;
     object-fit: cover;
     border-radius: 8px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 10px;
 }
 
 .featured-news:hover {
     transform: scale(1.02);
-
 }
 
 .featured-title {
     font-size: 30px;
+    color: #222;
 }
 
 .news-grid {
@@ -44,7 +44,7 @@
 
 .news-card-image {
     width: 100%;
-    height: 120px;
+    max-height: 120px;
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -56,4 +56,5 @@
 
 .news-card-title {
     font-size: 20px;
+    color: #222;
 }

@@ -133,13 +133,21 @@ function News() {
                 {news.comments && news.comments.length > 0 ? (
                     news.comments.map((c) => (
                         <div key={c._id} className='comment'>
-                            <div className='profile-picture'>
+                            <div
+                                className='profile-picture'
+                                onClick={() => navigate(`/user-profile/${c.user._id}`)}
+                            >
                                 {c.user?.name ? c.user.name.charAt(0).toUpperCase() : '?'}
                             </div>
 
                             <div className='comment-info'>
                                 <div className='comment-header'>
-                                    <span className='comment-user'>{c.user?.name || 'Usuário desconhecido'}</span>
+                                    <span
+                                        className='comment-user'
+                                        onClick={() => navigate(`/user-profile/${c.user._id}`)}
+                                    >
+                                        {c.user?.name || 'Usuário desconhecido'}
+                                    </span>
                                     <span className='comment-date'>
                                         • {formatDistanceToNow(new Date(c.createdAt), {
                                             addSuffix: true,

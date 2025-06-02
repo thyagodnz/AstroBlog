@@ -1,10 +1,11 @@
 import { Router } from 'express'
-import { getUsers, createUser, deleteUser, updateUser, loginUser } from './controllers/UserController.js'
+import { getUsers, createUser, deleteUser, updateUser, loginUser, getUserById } from './controllers/UserController.js'
 import { getNews, createNews, deleteNews, updateNews, getNewsById, addComment, deleteComment } from './controllers/NewsController.js'
 
 const routes = Router()
 
 routes.get('/users', getUsers)
+routes.get('/users/:id', getUserById)
 routes.post('/users', createUser)
 routes.post('/login', loginUser)
 routes.put('/users/:id', updateUser)

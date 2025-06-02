@@ -13,8 +13,8 @@ function Header() {
 
             {(location.pathname === '/' || location.pathname.startsWith('/news/')) && (
                 <button
-                    className='login-button'
-                    onClick={() => navigate(user ? '/my-profile' : '/login')}
+                    className='header-button'
+                    onClick={() => navigate(user ? `/user-profile/${user.id}` : '/login')}
                 >
                     {user ? 'Meu perfil' : 'Entrar'}
                 </button>
