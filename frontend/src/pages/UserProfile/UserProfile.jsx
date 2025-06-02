@@ -13,6 +13,7 @@ function UserProfile() {
     const { id } = useParams()
 
     const [profileUser, setProfileUser] = useState(null)
+    const [userNews, setUserNews] = useState([])
     const [showModal, setShowModal] = useState(false)
 
     const isOwnProfile = user?.id === id
@@ -28,6 +29,20 @@ function UserProfile() {
         }
 
         fetchUser()
+    }, [id])
+
+    useEffect(() => {
+        const fetchUserNews = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/news/author/${id}`)
+                setUserNews(response.data)
+            } catch (error) {
+                console.error('Erro ao buscar notícias do usuário:', error)
+                setUserNews([])
+            }
+        }
+
+        fetchUserNews()
     }, [id])
 
     const handleLogout = () => {
@@ -102,6 +117,29 @@ function UserProfile() {
                     onUpdate={handleProfileUpdate}
                 />
             )}
+
+            {profileUser.collaborator && userNews.length > 0 && (
+                <div className='user-news-section'>
+
+                    <div className='news-grid'>
+                        {userNews.map(news => (
+                            <div
+                                key={news._id}
+                                className='news-card'
+                                onClick={() => navigate(`/news/${news._id}`)}
+                            >
+                                <img
+                                    src={news.image}
+                                    alt={news.title}
+                                    className='news-card-image'
+                                />
+                                <h2 className='news-card-title'>{news.title}</h2>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
         </div>
     )
 }
