@@ -13,6 +13,11 @@
     font-weight: bold;
 }
 
+.page .info .author:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .page p {
     font-size: 16px;
     line-height: 1.5;

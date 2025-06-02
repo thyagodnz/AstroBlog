@@ -1,8 +1,12 @@
 import News from '../models/News.js'
+import User from '../models/User.js'
 
 async function getNews(req, res) {
     try {
-        const allNews = await News.find().sort({ createdAt: -1 })
+        const allNews = await News.find()
+            .sort({ createdAt: -1 })
+            .populate('author', 'name _id collaborator')
+
         return res.status(200).json(allNews)
     } catch (error) {
         return res.status(500).json({ res: 'Erro ao buscar notícias', error: error.message })
@@ -12,6 +16,16 @@ async function getNews(req, res) {
 async function createNews(req, res) {
     try {
         const { title, author, content, image, imageDescription } = req.body
+
+        const user = await User.findById(author)
+
+        if (!user) {
+            return res.status(404).json({ res: 'Usuário não encontrado' })
+        }
+
+        if (!user.collaborator) {
+            return res.status(403).json({ res: 'Apenas colaboradores podem publicar notícias' })
+        }
 
         const contentArray = content
             .split(/\n\s*\n/)
@@ -26,7 +40,10 @@ async function createNews(req, res) {
             imageDescription
         })
 
-        return res.status(201).json(newNews)
+        const populatedNews = await News.findById(newNews._id)
+            .populate('author', 'name _id collaborator')
+
+        return res.status(201).json(populatedNews)
     } catch (error) {
         return res.status(500).json({ res: 'Erro ao criar notícia', error: error.message })
     }
@@ -54,6 +71,7 @@ async function updateNews(req, res) {
 
     try {
         const updatedNews = await News.findByIdAndUpdate(id, updatedData, { new: true })
+            .populate('author', 'name _id collaborator')
 
         if (!updatedNews) {
             return res.status(404).json({ res: 'Notícia não encontrada' })
@@ -68,7 +86,9 @@ async function updateNews(req, res) {
 async function getNewsById(req, res) {
     const id = req.params.id
     try {
-        const news = await News.findById(id).populate('comments.user', 'name _id collaborator')
+        const news = await News.findById(id)
+            .populate('author', 'name _id collaborator')
+            .populate('comments.user', 'name _id collaborator')
 
         if (!news) {
             return res.status(404).json({ res: 'Notícia não encontrada' })
@@ -99,7 +119,11 @@ async function addComment(req, res) {
         news.comments.push({ user, content })
         await news.save()
 
-        const updateNews = await News.findById(id).populate('comments.user', 'name _id')
+        const updateNews = await News.findById(id)
+            .populate('comments.user', 'name _id collaborator')
+            .populate('author', 'name _id collaborator')
+
+        updateNews.comments.sort((a, b) => b.createdAt - a.createdAt)
 
         res.status(201).json(updateNews.comments)
     } catch (error) {
@@ -109,7 +133,7 @@ async function addComment(req, res) {
 
 async function deleteComment(req, res) {
     const { newsId, commentId } = req.params
-    const { userId } = req.body
+    const userId = req.query.userId
 
     if (!userId) {
         return res.status(400).json({ error: 'O ID do usuário é obrigatório.' })
@@ -133,7 +157,10 @@ async function deleteComment(req, res) {
         news.comments.pull(commentId)
         await news.save()
 
-        const updatedNews = await News.findById(newsId).populate('comments.user', 'name _id')
+        const updatedNews = await News.findById(newsId)
+            .populate('comments.user', 'name _id collaborator')
+            .populate('author', 'name _id collaborator')
+
         updatedNews.comments.sort((a, b) => b.createdAt - a.createdAt)
 
         res.status(200).json(updatedNews.comments)
@@ -143,4 +170,31 @@ async function deleteComment(req, res) {
     }
 }
 
-export { getNews, createNews, deleteNews, updateNews, getNewsById, addComment, deleteComment }
+async function getNewsByAuthor(req, res) {
+    const author = req.params.author
+
+    try {
+        const newsByAuthor = await News.find({ author })
+            .sort({ createdAt: -1 })
+            .populate('author', 'name _id collaborator')
+
+        if (newsByAuthor.length === 0) {
+            return res.status(404).json({ res: 'Nenhuma notícia encontrada para este autor' })
+        }
+
+        return res.status(200).json(newsByAuthor)
+    } catch (error) {
+        return res.status(500).json({ res: 'Erro ao buscar notícias por autor', error: error.message })
+    }
+}
+
+export {
+    getNews,
+    createNews,
+    deleteNews,
+    updateNews,
+    getNewsById,
+    addComment,
+    deleteComment,
+    getNewsByAuthor
+}

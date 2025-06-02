@@ -72,9 +72,9 @@ function News() {
         }
 
         try {
-            await axios.delete(`http://localhost:3000/news/${id}/comments/${commentId}`, {
-                data: { userId: user.id }
-            })
+            await axios.delete(
+                `http://localhost:3000/news/${id}/comments/${commentId}?userId=${user.id}`
+            )
 
             const response = await axios.get(`http://localhost:3000/news/${id}`)
             setNews(response.data)
@@ -91,18 +91,28 @@ function News() {
         <div className='page'>
             <h1 className='news-title'>{news.title}</h1>
             <p className='info'>
-                Por <strong className='author'>{news.author}</strong> em {formattedDate} às {formattedTime}
+                Por{' '}
+                <strong
+                    className='author'
+                    onClick={() => navigate(`/user-profile/${news.author?._id}`)}
+                >
+                    {news.author?.name || 'Autor desconhecido'}
+
+                </strong>{' '}
+                em {formattedDate} às {formattedTime}
             </p>
 
             {news.content.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
             ))}
 
-            <img
-                src={news.image}
-                alt={news.imageDescription || news.title}
-                className='news-image'
-            />
+            {news.image && (
+                <img
+                    src={news.image}
+                    alt={news.imageDescription || news.title}
+                    className='news-image'
+                />
+            )}
 
             {news.imageDescription && (
                 <p className='news-image-description'>{news.imageDescription}</p>
@@ -149,12 +159,16 @@ function News() {
                                     >
                                         {c.user?.name || 'Usuário desconhecido'}
                                         {c.user?.collaborator && (
-                                            <BsPatchCheckFill className='verified-icon-p' title='Colaborador' />
+                                            <BsPatchCheckFill
+                                                className='verified-icon-p'
+                                                title='Colaborador'
+                                            />
                                         )}
                                     </span>
 
                                     <span className='comment-date'>
-                                        • {formatDistanceToNow(new Date(c.createdAt), {
+                                        •{' '}
+                                        {formatDistanceToNow(new Date(c.createdAt), {
                                             addSuffix: true,
                                             locale: ptBR
                                         })}
