@@ -1,0 +1,127 @@
+.astroblog-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.astroblog-header h1 {
+  font-family: 'Passion One', cursive;
+  font-size: 2.5rem;
+  color: #7d70ba;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.post-actions {
+  background-color: #f8f8f8;
+  padding: 1.5rem;
+  border-radius: 20px;
+}
+
+.action-tabs {
+  display: flex;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-button {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #555;
+  position: relative;
+  margin-right: 0.5rem;
+}
+
+.tab-button.active {
+  color: #7d70ba;
+  font-weight: bold;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #460260;
+}
+
+.note-types {
+  margin-bottom: 1rem;
+}
+
+.note-option {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  color: #555;
+}
+
+.post-textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 1rem;
+  font-family: inherit;
+}
+
+.add-button {
+  border: none;
+  border-radius: 30px;
+  background-color: #460260;
+  color: #fff;
+  font-weight: bold;
+  padding: 0 2rem;
+  height: 40px;
+  margin: 1rem 0;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.add-button:hover {
+  opacity: 0.8;
+}
+
+.margin-access h3 {
+  margin-top: 0;
+  color: #7d70ba;
+}
+
+.notes-list {
+  margin-top: 1rem;
+}
+
+.note-item {
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-left: 3px solid #460260;
+  margin-bottom: 0.5rem;
+  border-radius: 0 4px 4px 0;
+}
+
+@media (max-width: 768px) {
+  .astroblog-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .action-tabs {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    text-align: left;
+    margin-bottom: 0.5rem;
+  }
+}
