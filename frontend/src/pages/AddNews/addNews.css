@@ -7,14 +7,6 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-.astroblog-header h1 {
-  font-family: 'Passion One', cursive;
-  font-size: 2.5rem;
-  color: #7d70ba;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
 .post-actions {
   background-color: #f8f8f8;
   padding: 1.5rem;
