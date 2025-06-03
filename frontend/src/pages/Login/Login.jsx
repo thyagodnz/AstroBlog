@@ -19,8 +19,6 @@ function Login() {
             })
 
             if (response.status === 200 && response.data) {
-                alert('Login realizado com sucesso!')
-
                 const userData = response.data
                 localStorage.setItem('user', JSON.stringify(userData))
                 login(userData)

@@ -8,11 +8,11 @@
     margin-top: auto;
     position: relative;
     bottom: 0%;
+}
 
-    & p {
-        font-size: 12px;
-        font-weight: lighter;
-        justify-content: center;
-        color: white;
-    }
+.footer p {
+    font-size: 12px;
+    font-weight: lighter;
+    justify-content: center;
+    color: white;
 }

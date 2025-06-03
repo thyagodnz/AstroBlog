@@ -1,0 +1,94 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-icon {
+    background-color: #460260;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 50px;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.user-name {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px 0px;
+    color: #222;
+}
+
+.verified-icon-g {
+    fill: #460260;
+    margin-left: 5px;
+    vertical-align: middle;
+    font-size: 28px;
+}
+
+.user-email {
+    font-size: 16px;
+    color: #444;
+    margin: 10px 0px;
+}
+
+.user-bio {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0px;
+    max-width: 350px;
+    text-align: center;
+}
+
+/****** Buttons ******/
+
+.profile-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-buttons button {
+    margin: 10px 0px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    color: white;
+}
+
+.profile-buttons button:hover {
+    opacity: 0.9;
+}
+
+.edit-profile-button,
+.be-collaborator-button {
+    background-color: #460260;
+    font-size: 14px;
+    width: 200px;
+}
+
+.logout-button {
+    background-color: red;
+    font-size: 16px;
+    width: 100px;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.logout-button:hover {
+    background-color: #cb464d;
+}
+
+.user-news-section {
+    margin-top: 30px;
+}

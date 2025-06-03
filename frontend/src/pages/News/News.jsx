@@ -6,6 +6,7 @@ import Loading from '../../components/Loading/Loading.jsx'
 import { useAuth } from '../../contexts/AuthContext.jsx'
 import { formatDistanceToNow, format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { BsPatchCheckFill } from 'react-icons/bs'
 
 function News() {
 
@@ -71,9 +72,9 @@ function News() {
         }
 
         try {
-            await axios.delete(`http://localhost:3000/news/${id}/comments/${commentId}`, {
-                data: { userId: user.id }
-            })
+            await axios.delete(
+                `http://localhost:3000/news/${id}/comments/${commentId}?userId=${user.id}`
+            )
 
             const response = await axios.get(`http://localhost:3000/news/${id}`)
             setNews(response.data)
@@ -90,18 +91,28 @@ function News() {
         <div className='page'>
             <h1 className='news-title'>{news.title}</h1>
             <p className='info'>
-                Por <strong className='author'>{news.author}</strong> em {formattedDate} às {formattedTime}
+                Por{' '}
+                <strong
+                    className='author'
+                    onClick={() => navigate(`/user-profile/${news.author?._id}`)}
+                >
+                    {news.author?.name || 'Autor desconhecido'}
+
+                </strong>{' '}
+                em {formattedDate} às {formattedTime}
             </p>
 
             {news.content.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
             ))}
 
-            <img
-                src={news.image}
-                alt={news.imageDescription || news.title}
-                className='news-image'
-            />
+            {news.image && (
+                <img
+                    src={news.image}
+                    alt={news.imageDescription || news.title}
+                    className='news-image'
+                />
+            )}
 
             {news.imageDescription && (
                 <p className='news-image-description'>{news.imageDescription}</p>
@@ -111,16 +122,20 @@ function News() {
                 <h3>Comentários</h3>
 
                 <form onSubmit={handleCommentSubmit} className='comment-form'>
-                    <div className='textarea-wrapper'>
+                    <div className='comment-form-content'>
                         <textarea
                             className='comment-input'
                             placeholder='Adicione um comentário...'
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
-                            rows='3'
+                            rows='2'
                             required
                         />
-                        <button type='submit' className='comment-submit-button' disabled={isSubmitting}>
+                        <button
+                            type='submit'
+                            className='comment-submit-button'
+                            disabled={isSubmitting}
+                        >
                             {isSubmitting ? '...' : '➤'}
                         </button>
                     </div>
@@ -129,16 +144,38 @@ function News() {
                 {news.comments && news.comments.length > 0 ? (
                     news.comments.map((c) => (
                         <div key={c._id} className='comment'>
-                            <p className='comment-header'>
-                                <span className='comment-user'>{c.user?.name || 'Usuário desconhecido'}</span>
-                                <span className='comment-date'>
-                                    • {formatDistanceToNow(new Date(c.createdAt), {
-                                        addSuffix: true,
-                                        locale: ptBR
-                                    })}
-                                </span>
-                            </p>
-                            <p className='comment-content'>{c.content}</p>
+                            <div
+                                className='profile-picture'
+                                onClick={() => navigate(`/user-profile/${c.user._id}`)}
+                            >
+                                {c.user?.name ? c.user.name.charAt(0).toUpperCase() : '?'}
+                            </div>
+
+                            <div className='comment-info'>
+                                <div className='comment-header'>
+                                    <span
+                                        className='comment-user'
+                                        onClick={() => navigate(`/user-profile/${c.user._id}`)}
+                                    >
+                                        {c.user?.name || 'Usuário desconhecido'}
+                                        {c.user?.collaborator && (
+                                            <BsPatchCheckFill
+                                                className='verified-icon-p'
+                                                title='Colaborador'
+                                            />
+                                        )}
+                                    </span>
+
+                                    <span className='comment-date'>
+                                        •{' '}
+                                        {formatDistanceToNow(new Date(c.createdAt), {
+                                            addSuffix: true,
+                                            locale: ptBR
+                                        })}
+                                    </span>
+                                </div>
+                                <div className='comment-content'>{c.content}</div>
+                            </div>
 
                             {user && c.user?._id === user.id && (
                                 <button

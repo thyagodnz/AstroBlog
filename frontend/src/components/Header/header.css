@@ -9,20 +9,20 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-
-    & h1 {
-        font-family: 'Passion One', sans-serif;
-        font-size: 30px;
-        font-weight: bold;
-        justify-content: center;
-        color: white;
-        cursor: pointer;
-        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-        user-select: none;
-    }
 }
 
-.login-button {
+.header h1 {
+    font-family: 'Passion One', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    user-select: none;
+}
+
+.header-button {
     position: absolute;
     right: 30px;
     background-color: white;
@@ -36,6 +36,6 @@
     transition: background-color 0.2s ease;
 }
 
-.login-button:hover {
+.header-button:hover {
     opacity: 0.9;
 }
