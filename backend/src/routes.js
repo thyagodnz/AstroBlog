@@ -1,41 +1,23 @@
 import { Router } from 'express'
-import {
-    getUsers,
-    createUser,
-    deleteUser,
-    updateUser,
-    loginUser,
-    getUserById
-} from './controllers/UserController.js'
-
-import {
-    getNews,
-    createNews,
-    deleteNews,
-    updateNews,
-    getNewsById,
-    addComment,
-    deleteComment,
-    getNewsByAuthor
-} from './controllers/NewsController.js'
+import { UserController, NewsController } from './controllers/index.js'
 
 const routes = Router()
 
-routes.get('/users', getUsers)
-routes.get('/users/:id', getUserById)
-routes.post('/users', createUser)
-routes.post('/login', loginUser)
-routes.put('/users/:id', updateUser)
-routes.delete('/users/:id', deleteUser)
+routes.get('/users', UserController.getUsers)
+routes.get('/users/:id', UserController.getUserById)
+routes.post('/users', UserController.createUser)
+routes.post('/login', UserController.loginUser)
+routes.put('/users/:id', UserController.updateUser)
+routes.delete('/users/:id', UserController.deleteUser)
 
-routes.get('/news', getNews)
-routes.get('/news/:id', getNewsById)
-routes.get('/news/author/:author', getNewsByAuthor)
-routes.post('/news', createNews)
-routes.put('/news/:id', updateNews)
-routes.delete('/news/:id', deleteNews)
+routes.get('/news', NewsController.getNews)
+routes.get('/news/:id', NewsController.getNewsById)
+routes.get('/news/author/:author', NewsController.getNewsByAuthor)
+routes.post('/news', NewsController.createNews)
+routes.put('/news/:id', NewsController.updateNews)
+routes.delete('/news/:id', NewsController.deleteNews)
 
-routes.post('/news/:id/comments', addComment)
-routes.delete('/news/:newsId/comments/:commentId', deleteComment)
+routes.post('/news/:id/comments', NewsController.addComment)
+routes.delete('/news/:newsId/comments/:commentId', NewsController.deleteComment)
 
 export default routes
