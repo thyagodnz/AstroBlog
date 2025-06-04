@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #460260;
+    background-color: var(--dark-purple);
     width: 100%;
     min-height: 55px;
     padding: 0 30px;
@@ -26,7 +26,7 @@
     position: absolute;
     right: 30px;
     background-color: white;
-    color: #460260;
+    color: var(--dark-purple);
     border: none;
     padding: 8px 16px;
     border-radius: 20px;

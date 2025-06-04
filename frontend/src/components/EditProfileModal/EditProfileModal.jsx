@@ -17,8 +17,8 @@ function EditProfileModal({ user, onClose, onUpdate }) {
                 name,
                 bio
             })
-            onUpdate(response.data) // Atualiza os dados no componente pai
-            onClose() // Fecha o modal
+            onUpdate(response.data)
+            onClose()
         } catch (error) {
             console.error('Erro ao atualizar perfil:', error)
         } finally {

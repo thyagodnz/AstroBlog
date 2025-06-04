@@ -9,7 +9,7 @@
 }
 
 .page .info .author {
-    color: #460260;
+    color: var(--dark-purple);
     font-weight: bold;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .profile-picture {
-    background-color: #460260;
+    background-color: var(--dark-purple);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -115,7 +115,7 @@
 }
 
 .verified-icon-p {
-    fill: #460260;
+    fill: var(--dark-purple);
     margin-left: 5px;
     vertical-align: middle;
     font-size: 15px;
@@ -169,7 +169,7 @@
 }
 
 .comment-submit-button {
-    background-color: #460260;
+    background-color: var(--dark-purple);
     color: white;
     border: none;
     padding: 8px 14px;
