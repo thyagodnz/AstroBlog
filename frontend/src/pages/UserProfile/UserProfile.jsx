@@ -97,7 +97,7 @@ function UserProfile() {
                                 )
                             }
                         >
-                            {profileUser.collaborator ? 'Adicionar notícia' : 'Tornar-se colaborador'}
+                            {profileUser.collaborator ? 'Adicionar publicação' : 'Tornar-se colaborador'}
                         </button>
 
                         <button

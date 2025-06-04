@@ -55,8 +55,6 @@ function AddNews() {
             )
 
             const cloudinaryData = await cloudinaryResponse.json()
-            console.log(cloudinaryData)
-
             const imageUrl = cloudinaryData.secure_url
 
             if (!imageUrl) {
@@ -72,12 +70,12 @@ function AddNews() {
             })
 
             if (response.status === 201) {
-                alert('Notícia publicada com sucesso!')
+                alert('Publicação feita com sucesso!')
                 navigate(`/user-profile/${user.id}`)
             }
         } catch (error) {
             console.error(error)
-            alert('Erro ao publicar a notícia')
+            alert('Erro ao publicar')
         } finally {
             setLoading(false)
         }
@@ -86,7 +84,7 @@ function AddNews() {
     return (
         <div className='page'>
             <div className='add-news-container'>
-                <h1 className='add-news'>Adicionar notícia</h1>
+                <h1 className='add-news'>Adicionar publicação</h1>
 
                 <input
                     className='add-news-title'
@@ -103,35 +101,48 @@ function AddNews() {
                     required
                 />
 
-                <div className='add-image'>
+                {!preview && (
                     <button
                         type='button'
                         className='add-image-button'
                         onClick={handleFileButtonClick}
                     >
-                        {imageFile ? 'Imagem selecionada' : 'Anexar imagem'}
+                        Anexar imagem
                     </button>
+                )}
 
-                    <input
-                        id='fileInput'
-                        type='file'
-                        accept='image/*'
-                        onChange={handleFileChange}
-                        style={{ display: 'none' }}
-                    />
-
-                    <input
-                        className='add-image-description'
-                        placeholder='Insira aqui a descrição da imagem...'
-                        type='text'
-                        ref={imageDescriptionRef}
-                        required
-                    />
-                </div>
+                <input
+                    id='fileInput'
+                    type='file'
+                    accept='image/*'
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                />
 
                 {preview && (
-                    <div className='image-preview'>
-                        <img src={preview} alt='Preview' />
+                    <div className='image-section'>
+                        <div className='image-preview'>
+                            <img src={preview} alt='Preview da imagem' />
+                            <button
+                                className='remove-image-button'
+                                onClick={() => {
+                                    setPreview(null)
+                                    setImageFile(null)
+                                }}
+                                type='button'
+                                title='Remover imagem'
+                            >
+                                ✕
+                            </button>
+                        </div>
+
+                        <input
+                            className='add-image-description'
+                            placeholder='Insira aqui a descrição da imagem...'
+                            type='text'
+                            ref={imageDescriptionRef}
+                            required
+                        />
                     </div>
                 )}
 

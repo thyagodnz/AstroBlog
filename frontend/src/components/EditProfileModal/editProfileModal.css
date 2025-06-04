@@ -28,6 +28,7 @@
 .modal textarea {
     width: 100%;
     padding: 10px;
+    margin-top: 5px;
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid #ccc;

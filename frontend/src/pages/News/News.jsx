@@ -90,7 +90,7 @@ function News() {
     return (
         <div className='page'>
             <h1 className='news-title'>{news.title}</h1>
-            <p className='info'>
+            <span className='news-info'>
                 Por{' '}
                 <strong
                     className='author'
@@ -100,7 +100,7 @@ function News() {
 
                 </strong>{' '}
                 em {formattedDate} às {formattedTime}
-            </p>
+            </span>
 
             {news.content.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
@@ -115,7 +115,7 @@ function News() {
             )}
 
             {news.imageDescription && (
-                <p className='news-image-description'>{news.imageDescription}</p>
+                <span className='news-image-description'>{news.imageDescription}</span>
             )}
 
             <div className='comments-section'>
@@ -188,7 +188,7 @@ function News() {
                         </div>
                     ))
                 ) : (
-                    <p className='no-comments'>Nenhum comentário ainda.</p>
+                    <p className='no-comments'>Nenhum comentário ainda</p>
                 )}
             </div>
         </div>
