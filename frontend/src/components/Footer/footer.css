@@ -1,7 +1,7 @@
 .footer {
     display: flex;
     justify-content: center;
-    background-color: #460260;
+    background-color: var(--dark-purple);
     align-items: center;
     width: 100%;
     min-height: 25px;

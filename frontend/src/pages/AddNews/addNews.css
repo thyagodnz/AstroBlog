@@ -1,0 +1,123 @@
+.add-news-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-news {
+  align-self: flex-start;
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.add-news-container textarea,
+.add-news-container input {
+  background-color: #d9d9d9;
+  margin-bottom: 10px;
+  resize: none;
+  width: 100%;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  outline-color: var(--light-purple);
+}
+
+.add-news-title {
+  height: 60px;
+}
+
+.add-news-content {
+  height: 400px;
+}
+
+.add-image-button {
+  background-color: var(--light-purple);
+  font-size: 14px;
+  padding: 0px 50px;
+  height: 45px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.add-image-button:hover {
+  opacity: 0.9;
+}
+
+.image-section {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.image-preview {
+  width: 100%;
+  position: relative;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: block;
+  object-fit: contain;
+}
+
+.remove-image-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.remove-image-button:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.add-image-description {
+  width: 100%;
+  height: 45px;
+  background-color: #d9d9d9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  outline-color: var(--light-purple);
+}
+
+.publish-news {
+  background-color: var(--dark-purple);
+  font-size: 16px;
+  margin-top: 50px;
+  padding: 0px 40px;
+  height: 50px;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.publish-news:hover {
+  opacity: 0.9;
+}
