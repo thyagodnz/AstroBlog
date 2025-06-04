@@ -3,19 +3,21 @@ import bcrypt from 'bcrypt'
 import formatUser from '../../utils/formatUser.js'
 
 export async function createUser(req, res) {
+    
     try {
         const { name, email, password, bio } = req.body
 
+       
         if (!name || !email || !password) {
             return res.status(400).json({ res: 'Nome, email e senha são obrigatórios' })
         }
 
-
-        const existingUser = await User.findOne({ email })
-        if (existingUser) {
-            return res.status(409).json({ res: 'Email já cadastrado' })
+        const userExists = await User.findOne({ email })
+        if (userExists) {
+            return res.status(409).json({ res: 'E-mail já cadastrado' })
         }
 
+      
         const saltRounds = 10
         const hashedPassword = await bcrypt.hash(password, saltRounds)
 
