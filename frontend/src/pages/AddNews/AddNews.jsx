@@ -29,6 +29,12 @@ function AddNews() {
     }
 
     const handlePublish = async () => {
+        if (!user || !user.collaborator) {
+            alert('Você não tem permissão para publicar!')
+            navigate('/')
+            return
+        }
+
         const title = titleRef.current.value
         const content = contentRef.current.value
         const imageDescription = imageDescriptionRef.current.value
@@ -80,6 +86,7 @@ function AddNews() {
             setLoading(false)
         }
     }
+
 
     return (
         <div className='page'>
