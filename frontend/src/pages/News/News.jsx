@@ -106,16 +106,15 @@ function News() {
                 <p key={index}>{paragraph}</p>
             ))}
 
-            {news.image && (
-                <img
-                    src={news.image}
-                    alt={news.imageDescription || news.title}
-                    className='news-image'
-                />
-            )}
-
-            {news.imageDescription && (
-                <span className='news-image-description'>{news.imageDescription}</span>
+            {news.image && news.imageDescription && (
+                <div className='news-image-section'>
+                    <img
+                        src={news.image}
+                        alt={news.imageDescription || news.title}
+                        className='news-image'
+                    />
+                    <span className='news-image-description'>{news.imageDescription}</span>
+                </div>
             )}
 
             <div className='comments-section'>
