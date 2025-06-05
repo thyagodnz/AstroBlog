@@ -10,11 +10,12 @@ function AddNews() {
 
     const [imageFile, setImageFile] = useState(null)
     const [preview, setPreview] = useState(null)
+    const [imageDescription, setImageDescription] = useState('')
     const [loading, setLoading] = useState(false)
 
     const titleRef = useRef()
     const contentRef = useRef()
-    const imageDescriptionRef = useRef()
+    const fileInputRef = useRef(null)
 
     const handleFileChange = (e) => {
         const file = e.target.files[0]
@@ -25,7 +26,9 @@ function AddNews() {
     }
 
     const handleFileButtonClick = () => {
-        document.getElementById('fileInput').click()
+        if (fileInputRef.current) {
+            fileInputRef.current.click()
+        }
     }
 
     const handlePublish = async () => {
@@ -35,11 +38,10 @@ function AddNews() {
             return
         }
 
-        const title = titleRef.current.value
-        const content = contentRef.current.value
-        const imageDescription = imageDescriptionRef.current.value
+        const title = titleRef.current.value.trim()
+        const content = contentRef.current.value.trim()
 
-        if (!title || !content || !imageFile || !imageDescription) {
+        if (!title || !content || !imageFile || !imageDescription.trim()) {
             alert('Preencha todos os campos e selecione uma imagem!')
             return
         }
@@ -51,7 +53,7 @@ function AddNews() {
             formData.append('title', title)
             formData.append('author', user.id)
             formData.append('content', content)
-            formData.append('imageDescription', imageDescription)
+            formData.append('imageDescription', imageDescription.trim())
             formData.append('image', imageFile)
 
             const response = await api.post('/news', formData, {
@@ -69,6 +71,15 @@ function AddNews() {
             alert('Erro ao publicar')
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleRemoveImage = () => {
+        setPreview(null)
+        setImageFile(null)
+        setImageDescription('')
+        if (fileInputRef.current) {
+            fileInputRef.current.value = null
         }
     }
 
@@ -107,6 +118,7 @@ function AddNews() {
                     type='file'
                     accept='image/*'
                     onChange={handleFileChange}
+                    ref={fileInputRef}
                     style={{ display: 'none' }}
                 />
 
@@ -116,10 +128,7 @@ function AddNews() {
                             <img src={preview} alt='Preview da imagem' />
                             <button
                                 className='remove-image-button'
-                                onClick={() => {
-                                    setPreview(null)
-                                    setImageFile(null)
-                                }}
+                                onClick={handleRemoveImage}
                                 type='button'
                                 title='Remover imagem'
                             >
@@ -131,7 +140,8 @@ function AddNews() {
                             className='add-image-description'
                             placeholder='Insira aqui a descrição da imagem...'
                             type='text'
-                            ref={imageDescriptionRef}
+                            value={imageDescription}
+                            onChange={(e) => setImageDescription(e.target.value)}
                             required
                         />
                     </div>
