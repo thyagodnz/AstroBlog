@@ -28,10 +28,12 @@
 .modal textarea {
     width: 100%;
     padding: 10px;
+    margin-top: 5px;
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid #ccc;
     resize: none;
+    outline-color: #9a84a2;
 }
 
 .modal-buttons {
@@ -50,7 +52,7 @@
 }
 
 .save-button {
-    background-color: #460260;
+    background-color: var(--dark-purple);
     color: white;
     padding: 8px 16px;
     border: none;

@@ -5,7 +5,7 @@
 }
 
 .profile-icon {
-    background-color: #460260;
+    background-color: var(--dark-purple);
     width: 160px;
     height: 160px;
     border-radius: 50%;
@@ -27,7 +27,7 @@
 }
 
 .verified-icon-g {
-    fill: #460260;
+    fill: var(--dark-purple);
     margin-left: 5px;
     vertical-align: middle;
     font-size: 28px;
@@ -35,7 +35,7 @@
 
 .user-email {
     font-size: 16px;
-    color: #444;
+    color: #333;
     margin: 10px 0px;
 }
 
@@ -72,7 +72,7 @@
 
 .edit-profile-button,
 .be-collaborator-button {
-    background-color: #460260;
+    background-color: var(--dark-purple);
     font-size: 14px;
     width: 200px;
 }
