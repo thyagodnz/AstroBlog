@@ -5,7 +5,7 @@ export async function deleteComment(req, res) {
     const userId = req.query.userId
 
     if (!userId) {
-        return res.status(400).json({ error: 'O ID do usuário é obrigatório.' })
+        return res.status(400).json({ error: 'O ID do usuário é obrigatório' })
     }
 
     try {
