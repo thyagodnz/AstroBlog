@@ -1,4 +1,4 @@
-function formatUser(user) {
+export function formatUser(user) {
     const userObj = user.toObject ? user.toObject() : { ...user }
 
     return {
@@ -6,9 +6,6 @@ function formatUser(user) {
         name: userObj.name,
         email: userObj.email,
         bio: userObj.bio,
-        collaborator: userObj.collaborator,
-        createdAt: userObj.createdAt
+        collaborator: userObj.collaborator
     }
 }
-
-export default formatUser

@@ -1,5 +1,5 @@
 import User from '../../models/User.js'
-import formatUser from '../../utils/formatUser.js'
+import { formatUser } from '../../utils/formatUser.js'
 
 export async function getUserById(req, res) {
     const { id } = req.params
