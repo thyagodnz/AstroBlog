@@ -1,5 +1,5 @@
 import User from '../../models/User.js'
-import formatUser from '../../utils/formatUser.js'
+import { formatUser } from '../../utils/formatUser.js'
 import bcrypt from 'bcrypt'
 
 export async function updateUser(req, res) {
@@ -15,7 +15,11 @@ export async function updateUser(req, res) {
             updateData.password = hashedPassword
         }
 
-        const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true })
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            updateData,
+            { new: true }
+        )
 
         if (!updatedUser) {
             return res.status(404).json({ res: 'Usuário não encontrado' })

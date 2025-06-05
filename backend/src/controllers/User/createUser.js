@@ -1,13 +1,11 @@
 import User from '../../models/User.js'
+import { formatUser } from '../../utils/formatUser.js'
 import bcrypt from 'bcrypt'
-import formatUser from '../../utils/formatUser.js'
 
 export async function createUser(req, res) {
-    
     try {
-        const { name, email, password, bio } = req.body
+        const { name, email, password } = req.body
 
-       
         if (!name || !email || !password) {
             return res.status(400).json({ res: 'Nome, email e senha são obrigatórios' })
         }
@@ -17,14 +15,12 @@ export async function createUser(req, res) {
             return res.status(409).json({ res: 'E-mail já cadastrado' })
         }
 
-      
         const saltRounds = 10
         const hashedPassword = await bcrypt.hash(password, saltRounds)
 
         const newUser = await User.create({
             name,
             email,
-            bio,
             password: hashedPassword
         })
 
