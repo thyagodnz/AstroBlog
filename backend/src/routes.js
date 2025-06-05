@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { UserController, NewsController } from './controllers/index.js'
+import upload from './middlewares/upload.js'
 
 const routes = Router()
 
@@ -13,7 +14,7 @@ routes.delete('/users/:id', UserController.deleteUser)
 routes.get('/news', NewsController.getNews)
 routes.get('/news/:id', NewsController.getNewsById)
 routes.get('/news/author/:author', NewsController.getNewsByAuthor)
-routes.post('/news', NewsController.createNews)
+routes.post('/news', upload.single('image'), NewsController.createNews)
 routes.put('/news/:id', NewsController.updateNews)
 routes.delete('/news/:id', NewsController.deleteNews)
 

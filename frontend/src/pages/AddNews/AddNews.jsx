@@ -48,31 +48,16 @@ function AddNews() {
             setLoading(true)
 
             const formData = new FormData()
-            formData.append('file', imageFile)
-            formData.append('upload_preset', 'news-astroblog')
-            const cloudName = 'dpiificss'
+            formData.append('title', title)
+            formData.append('author', user.id)
+            formData.append('content', content)
+            formData.append('imageDescription', imageDescription)
+            formData.append('image', imageFile)
 
-            const cloudinaryResponse = await fetch(
-                `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-                {
-                    method: 'POST',
-                    body: formData
+            const response = await api.post('/news', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            )
-
-            const cloudinaryData = await cloudinaryResponse.json()
-            const imageUrl = cloudinaryData.secure_url
-
-            if (!imageUrl) {
-                throw new Error('Erro no upload da imagem')
-            }
-
-            const response = await api.post('/news', {
-                title,
-                author: user.id,
-                content,
-                image: imageUrl,
-                imageDescription
             })
 
             if (response.status === 201) {
@@ -86,7 +71,6 @@ function AddNews() {
             setLoading(false)
         }
     }
-
 
     return (
         <div className='page'>

@@ -1,12 +1,12 @@
 import News from '../../models/News.js'
 import User from '../../models/User.js'
+import cloudinary from '../../config/cloudinary.js'
 
 export async function createNews(req, res) {
     try {
-        const { title, author, content, image, imageDescription } = req.body
-
+        const { title, author, content, imageDescription } = req.body
         const user = await User.findById(author)
-
+        
         if (!user) {
             return res.status(404).json({ res: 'Usuário não encontrado' })
         }
@@ -14,6 +14,21 @@ export async function createNews(req, res) {
         if (!user.collaborator) {
             return res.status(403).json({ res: 'Apenas colaboradores podem publicar notícias' })
         }
+
+        if (!req.file) {
+            return res.status(400).json({ res: 'Imagem é obrigatória' })
+        }
+
+        const result = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                { folder: 'news' },
+                (error, result) => {
+                    if (error) reject(error)
+                    else resolve(result)
+                }
+            )
+            stream.end(req.file.buffer)
+        })
 
         const contentArray = content
             .split(/\n\s*\n/)
@@ -24,7 +39,7 @@ export async function createNews(req, res) {
             title,
             author,
             content: contentArray,
-            image,
+            image: result.secure_url,
             imageDescription
         })
 
