@@ -21,11 +21,7 @@ function UserProfile() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await api.get(`/users/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
+                const response = await api.get(`/users/${id}`)
                 setProfileUser(response.data)
             } catch (error) {
                 console.error('Erro ao buscar usuário:', error)
@@ -38,11 +34,7 @@ function UserProfile() {
     useEffect(() => {
         const fetchUserNews = async () => {
             try {
-                const response = await api.get(`/news/author/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
+                const response = await api.get(`/news/author/${id}`)
                 setUserNews(response.data)
             } catch (error) {
                 console.error('Erro ao buscar notícias do usuário:', error)

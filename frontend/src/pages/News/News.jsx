@@ -1,26 +1,25 @@
 import './news.css'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import Loading from '../../components/Loading/Loading.jsx'
 import { useAuth } from '../../contexts/AuthContext.jsx'
 import { formatDistanceToNow, format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { BsPatchCheckFill } from 'react-icons/bs'
+import api from '../../services/api'
 
 function News() {
-
     const { id } = useParams()
     const navigate = useNavigate()
     const [news, setNews] = useState(null)
     const [comment, setComment] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const { user } = useAuth()
+    const { userId, token } = useAuth()
 
     useEffect(() => {
         async function fetchNews() {
             try {
-                const response = await axios.get(`http://localhost:3000/news/${id}`)
+                const response = await api.get(`/news/${id}`)
                 setNews(response.data)
             } catch (error) {
                 console.error('Erro ao carregar notícia:', error)
@@ -39,7 +38,7 @@ function News() {
 
         if (!comment.trim()) return
 
-        if (!user) {
+        if (!token) {
             alert('Faça login para adicionar um comentário')
             navigate('/login')
             return
@@ -48,12 +47,9 @@ function News() {
         try {
             setIsSubmitting(true)
 
-            await axios.post(`http://localhost:3000/news/${id}/comments`, {
-                user: user.id,
-                content: comment.trim()
-            })
+            await api.post(`/news/${id}/comments`, { content: comment.trim() })
 
-            const response = await axios.get(`http://localhost:3000/news/${id}`)
+            const response = await api.get(`/news/${id}`)
             setNews(response.data)
 
             setComment('')
@@ -67,16 +63,12 @@ function News() {
     async function handleDeleteComment(commentId) {
         const confirmDelete = window.confirm('Deseja excluir este comentário?')
 
-        if (!confirmDelete) {
-            return
-        }
+        if (!confirmDelete) return
 
         try {
-            await axios.delete(
-                `http://localhost:3000/news/${id}/comments/${commentId}?userId=${user.id}`
-            )
+            await api.delete(`/news/${id}/comments/${commentId}`)
 
-            const response = await axios.get(`http://localhost:3000/news/${id}`)
+            const response = await api.get(`/news/${id}`)
             setNews(response.data)
         } catch (error) {
             console.error('Erro ao deletar comentário:', error)
@@ -97,7 +89,6 @@ function News() {
                     onClick={() => navigate(`/user-profile/${news.author?._id}`)}
                 >
                     {news.author?.name || 'Autor desconhecido'}
-
                 </strong>{' '}
                 em {formattedDate} às {formattedTime}
             </span>
@@ -176,7 +167,7 @@ function News() {
                                 <div className='comment-content'>{c.content}</div>
                             </div>
 
-                            {user && c.user?._id === user.id && (
+                            {token && c.user?._id === userId && (
                                 <button
                                     className='delete-comment-button'
                                     onClick={() => handleDeleteComment(c._id)}

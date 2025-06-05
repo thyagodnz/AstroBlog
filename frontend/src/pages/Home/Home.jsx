@@ -1,17 +1,16 @@
 import './home.css'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../../services/api'
 
 function Home() {
-
   const navigate = useNavigate()
   const [newsList, setNewsList] = useState([])
 
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await axios.get('http://localhost:3000/news')
+        const response = await api.get('/news')
         setNewsList(response.data)
       } catch (error) {
         console.error('Erro ao buscar notícias:', error)
@@ -30,7 +29,6 @@ function Home() {
 
   return (
     <div className='page'>
-
       {firstNews && (
         <div className='featured-news' onClick={() => goToNews(firstNews._id)}>
           <img src={firstNews.image} alt={firstNews.title} className='featured-image' />

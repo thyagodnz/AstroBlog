@@ -4,7 +4,6 @@ import { deleteUser } from './User/deleteUser.js'
 import { updateUser } from './User/updateUser.js'
 import { loginUser } from './User/loginUser.js'
 import { getUserById } from './User/getUserById.js'
-import { getMe } from './User/getMe.js'
 
 import { getNews } from './News/getNews.js'
 import { createNews } from './News/createNews.js'
@@ -21,8 +20,7 @@ export const UserController = {
     deleteUser,
     updateUser,
     loginUser,
-    getUserById,
-    getMe
+    getUserById
 }
 
 export const NewsController = {

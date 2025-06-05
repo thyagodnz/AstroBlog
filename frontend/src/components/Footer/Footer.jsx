@@ -7,7 +7,6 @@ function Footer() {
             <p>Desenvolvido para a disciplina de Laboratório de Engenharia de Software I</p>
         </footer>
     )
-
 }
 
 export default Footer

@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import api from '../../services/api'
 
 function AddNews() {
-    const { user } = useAuth()
+    const { token } = useAuth()
     const navigate = useNavigate()
 
     const [imageFile, setImageFile] = useState(null)
@@ -32,9 +32,9 @@ function AddNews() {
     }
 
     const handlePublish = async () => {
-        if (!user || !user.collaborator) {
-            alert('Você não tem permissão para publicar!')
-            navigate('/')
+        if (!token) {
+            alert('Você precisa estar logado para publicar!')
+            navigate('/login')
             return
         }
 
@@ -51,24 +51,23 @@ function AddNews() {
 
             const formData = new FormData()
             formData.append('title', title)
-            formData.append('author', user.id)
             formData.append('content', content)
             formData.append('imageDescription', imageDescription.trim())
             formData.append('image', imageFile)
 
-            const response = await api.post('/news', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
+            const response = await api.post('/news', formData)
 
             if (response.status === 201) {
                 alert('Publicação feita com sucesso!')
-                navigate(`/user-profile/${user.id}`)
+                navigate('/')
             }
         } catch (error) {
             console.error(error)
-            alert('Erro ao publicar')
+            if (error.response?.status === 403) {
+                alert('Você não tem permissão para publicar')
+            } else {
+                alert('Erro ao publicar')
+            }
         } finally {
             setLoading(false)
         }
