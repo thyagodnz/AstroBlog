@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import { UserController, NewsController } from './controllers/index.js'
 import upload from './middlewares/upload.js'
+import { auth } from './middlewares/auth.js'
 
 const routes = Router()
 
 routes.get('/users', UserController.getUsers)
 routes.get('/users/:id', UserController.getUserById)
+routes.get('/me', auth, UserController.getMe)
 routes.post('/users', UserController.createUser)
 routes.post('/login', UserController.loginUser)
 routes.put('/users/:id', UserController.updateUser)

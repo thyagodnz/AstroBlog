@@ -2,13 +2,13 @@ import './userProfile.css'
 import { useAuth } from '../../contexts/AuthContext.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../../services/api.js'
 import EditProfileModal from '../../components/EditProfileModal/EditProfileModal.jsx'
 import Loading from '../../components/Loading/Loading.jsx'
 import { BsPatchCheckFill } from 'react-icons/bs'
 
 function UserProfile() {
-    const { user, logout, login } = useAuth()
+    const { userId, token, logout } = useAuth()
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -16,12 +16,16 @@ function UserProfile() {
     const [userNews, setUserNews] = useState([])
     const [showModal, setShowModal] = useState(false)
 
-    const isOwnProfile = user?.id === id
+    const isOwnProfile = userId === id
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/users/${id}`)
+                const response = await api.get(`/users/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
                 setProfileUser(response.data)
             } catch (error) {
                 console.error('Erro ao buscar usuário:', error)
@@ -29,12 +33,16 @@ function UserProfile() {
         }
 
         fetchUser()
-    }, [id])
+    }, [id, token])
 
     useEffect(() => {
         const fetchUserNews = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/news/author/${id}`)
+                const response = await api.get(`/news/author/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
                 setUserNews(response.data)
             } catch (error) {
                 console.error('Erro ao buscar notícias do usuário:', error)
@@ -43,7 +51,7 @@ function UserProfile() {
         }
 
         fetchUserNews()
-    }, [id])
+    }, [id, token])
 
     const handleLogout = () => {
         logout()
@@ -52,7 +60,6 @@ function UserProfile() {
 
     const handleProfileUpdate = (updatedUser) => {
         setProfileUser(updatedUser)
-        login(updatedUser)
     }
 
     if (!profileUser) {
@@ -62,7 +69,6 @@ function UserProfile() {
     return (
         <div className='page'>
             <div className='profile-container'>
-
                 <div className='profile-icon'>
                     {profileUser.name ? profileUser.name.charAt(0).toUpperCase() : '?'}
                 </div>
@@ -120,7 +126,6 @@ function UserProfile() {
 
             {profileUser.collaborator && userNews.length > 0 && (
                 <div className='user-news-section'>
-
                     <div className='news-grid'>
                         {userNews.map(news => (
                             <div
@@ -139,7 +144,6 @@ function UserProfile() {
                     </div>
                 </div>
             )}
-
         </div>
     )
 }

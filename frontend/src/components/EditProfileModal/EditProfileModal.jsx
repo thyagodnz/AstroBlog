@@ -1,6 +1,6 @@
 import './editProfileModal.css'
 import { useState } from 'react'
-import axios from 'axios'
+import api from '../../services/api.js'
 
 function EditProfileModal({ user, onClose, onUpdate }) {
 
@@ -13,14 +13,16 @@ function EditProfileModal({ user, onClose, onUpdate }) {
         setIsSaving(true)
 
         try {
-            const response = await axios.put(`http://localhost:3000/users/${user.id}`, {
+            const response = await api.put(`/users/${user.id}`, {
                 name,
                 bio
             })
+
             onUpdate(response.data)
             onClose()
         } catch (error) {
             console.error('Erro ao atualizar perfil:', error)
+            alert('Erro ao atualizar perfil')
         } finally {
             setIsSaving(false)
         }
