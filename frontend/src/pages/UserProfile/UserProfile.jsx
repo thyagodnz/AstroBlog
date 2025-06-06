@@ -8,7 +8,7 @@ import Loading from '../../components/Loading/Loading.jsx'
 import { BsPatchCheckFill } from 'react-icons/bs'
 
 function UserProfile() {
-    const { userData, logout } = useAuth()
+    const { userData, logout, isLoadingUserData } = useAuth()
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -19,29 +19,31 @@ function UserProfile() {
     const isOwnProfile = userData?.id === id
 
     useEffect(() => {
+        if (isLoadingUserData) return
+
         if (isOwnProfile) {
             setProfileUser(userData)
-
-        } else {
-            api.get(`/users/${id}`)
-                .then(response => {
-                    setProfileUser(response.data)
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar usuário:', error)
-                    setProfileUser(null)
-                })
+            return
         }
-    }, [id, userData, isOwnProfile])
+
+        api.get(`/users/${id}`)
+            .then(response => setProfileUser(response.data))
+            .catch(error => {
+                console.error('Erro ao buscar usuário:', error)
+                setProfileUser(null)
+            })
+    }, [id, userData, isLoadingUserData])
 
     useEffect(() => {
+        if (!profileUser?.collaborator) return
+
         api.get(`/news/author/${id}`)
             .then(response => setUserNews(response.data))
             .catch(error => {
                 console.error('Erro ao buscar notícias do usuário:', error)
                 setUserNews([])
             })
-    }, [id])
+    }, [id, profileUser])
 
     const handleLogout = () => {
         logout()
@@ -54,7 +56,7 @@ function UserProfile() {
         }
     }
 
-    if (!profileUser) {
+    if (isLoadingUserData || !profileUser) {
         return <Loading />
     }
 

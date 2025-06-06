@@ -7,26 +7,33 @@ const AuthContext = createContext()
 export function AuthProvider({ children }) {
     const [token, setToken] = useState(() => localStorage.getItem('token') || null)
     const [userData, setUserData] = useState(null)
+    const [isLoadingUserData, setIsLoadingUserData] = useState(true)
 
     useEffect(() => {
-        if (token) {
-            try {
-                const decoded = jwtDecode(token)
-                const currentTime = Date.now() / 1000
+        const initialize = async () => {
+            if (token) {
+                try {
+                    const decoded = jwtDecode(token)
+                    const currentTime = Date.now() / 1000
 
-                if (decoded.exp && decoded.exp < currentTime) {
-                    console.warn('Sessão expirada')
+                    if (decoded.exp && decoded.exp < currentTime) {
+                        console.warn('Sessão expirada')
+                        logout()
+                    } else {
+                        await fetchUserData()
+                    }
+                } catch (error) {
+                    console.error('Token inválido:', error)
                     logout()
-                } else {
-                    fetchUserData(decoded.id)
                 }
-            } catch (error) {
-                console.error('Token inválido:', error)
-                logout()
+            } else {
+                setUserData(null)
             }
-        } else {
-            setUserData(null)
+
+            setIsLoadingUserData(false)
         }
+
+        initialize()
     }, [token])
 
     const fetchUserData = async () => {
@@ -55,7 +62,7 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ token, userData, login, logout, updateUserData }}>
+        <AuthContext.Provider value={{ token, userData, login, logout, updateUserData, isLoadingUserData }}>
             {children}
         </AuthContext.Provider>
     )

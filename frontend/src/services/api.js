@@ -21,7 +21,7 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            alert('Sessão expirada')
+            console.warn('Acesso não autorizado')
             localStorage.removeItem('token')
             window.location.href = '/login'
         }
