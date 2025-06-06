@@ -29,9 +29,9 @@ export function AuthProvider({ children }) {
         }
     }, [token])
 
-    const fetchUserData = async (id) => {
+    const fetchUserData = async () => {
         try {
-            const response = await api.get(`/users/${id}`)
+            const response = await api.get(`/me`)
             setUserData(response.data)
         } catch (error) {
             console.error('Erro ao buscar dados do usuário:', error)

@@ -7,6 +7,7 @@ const routes = Router()
 
 routes.get('/users', UserController.getUsers)
 routes.get('/users/:id', UserController.getUserById)
+routes.get('/me', auth, UserController.getMe) //🔒
 routes.post('/users', UserController.createUser)
 routes.post('/login', UserController.loginUser)
 routes.put('/users/:id', auth, UserController.updateUser) //🔒
