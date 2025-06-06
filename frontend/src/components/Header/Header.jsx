@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext'
 function Header() {
     const navigate = useNavigate()
     const location = useLocation()
-    const { userId, token } = useAuth()
+    const { userData, token } = useAuth()
 
     return (
         <header className='header'>
@@ -14,7 +14,7 @@ function Header() {
             {(location.pathname === '/' || location.pathname.startsWith('/news/')) && (
                 <button
                     className='header-button'
-                    onClick={() => navigate(token ? `/user-profile/${userId}` : '/login')}
+                    onClick={() => navigate(token ? `/user-profile/${userData.id}` : '/login')}
                 >
                     {token ? 'Meu perfil' : 'Entrar'}
                 </button>

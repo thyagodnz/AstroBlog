@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode'
+import api from '../services/api'
 
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
     const [token, setToken] = useState(() => localStorage.getItem('token') || null)
-    const [userId, setUserId] = useState(null)
+    const [userData, setUserData] = useState(null)
 
     useEffect(() => {
         if (token) {
@@ -17,16 +18,26 @@ export function AuthProvider({ children }) {
                     console.warn('Sessão expirada')
                     logout()
                 } else {
-                    setUserId(decoded.id)
+                    fetchUserData(decoded.id)
                 }
             } catch (error) {
                 console.error('Token inválido:', error)
                 logout()
             }
         } else {
-            setUserId(null)
+            setUserData(null)
         }
     }, [token])
+
+    const fetchUserData = async (id) => {
+        try {
+            const response = await api.get(`/users/${id}`)
+            setUserData(response.data)
+        } catch (error) {
+            console.error('Erro ao buscar dados do usuário:', error)
+            logout()
+        }
+    }
 
     const login = (token) => {
         setToken(token)
@@ -35,12 +46,16 @@ export function AuthProvider({ children }) {
 
     const logout = () => {
         setToken(null)
-        setUserId(null)
+        setUserData(null)
         localStorage.removeItem('token')
     }
 
+    const updateUserData = (newData) => {
+        setUserData((prev) => ({ ...prev, ...newData }))
+    }
+
     return (
-        <AuthContext.Provider value={{ token, userId, login, logout }}>
+        <AuthContext.Provider value={{ token, userData, login, logout, updateUserData }}>
             {children}
         </AuthContext.Provider>
     )

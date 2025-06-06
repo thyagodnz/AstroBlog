@@ -8,7 +8,7 @@ import Loading from '../../components/Loading/Loading.jsx'
 import { BsPatchCheckFill } from 'react-icons/bs'
 
 function UserProfile() {
-    const { userId, token, logout } = useAuth()
+    const { userData, logout } = useAuth()
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -16,34 +16,32 @@ function UserProfile() {
     const [userNews, setUserNews] = useState([])
     const [showModal, setShowModal] = useState(false)
 
-    const isOwnProfile = userId === id
+    const isOwnProfile = userData?.id === id
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await api.get(`/users/${id}`)
-                setProfileUser(response.data)
-            } catch (error) {
-                console.error('Erro ao buscar usuário:', error)
-            }
+        if (isOwnProfile) {
+            setProfileUser(userData)
+
+        } else {
+            api.get(`/users/${id}`)
+                .then(response => {
+                    setProfileUser(response.data)
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar usuário:', error)
+                    setProfileUser(null)
+                })
         }
-
-        fetchUser()
-    }, [id, token])
+    }, [id, userData, isOwnProfile])
 
     useEffect(() => {
-        const fetchUserNews = async () => {
-            try {
-                const response = await api.get(`/news/author/${id}`)
-                setUserNews(response.data)
-            } catch (error) {
+        api.get(`/news/author/${id}`)
+            .then(response => setUserNews(response.data))
+            .catch(error => {
                 console.error('Erro ao buscar notícias do usuário:', error)
                 setUserNews([])
-            }
-        }
-
-        fetchUserNews()
-    }, [id, token])
+            })
+    }, [id])
 
     const handleLogout = () => {
         logout()
@@ -51,7 +49,9 @@ function UserProfile() {
     }
 
     const handleProfileUpdate = (updatedUser) => {
-        setProfileUser(updatedUser)
+        if (isOwnProfile) {
+            setProfileUser(updatedUser)
+        }
     }
 
     if (!profileUser) {

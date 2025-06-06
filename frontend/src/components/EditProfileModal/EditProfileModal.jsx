@@ -1,8 +1,10 @@
 import './editProfileModal.css'
 import { useState } from 'react'
+import { useAuth } from '../../contexts/AuthContext.jsx'
 import api from '../../services/api.js'
 
 function EditProfileModal({ user, onClose, onUpdate }) {
+    const { updateUserData } = useAuth()
 
     const [name, setName] = useState(user.name)
     const [bio, setBio] = useState(user.bio || '')
@@ -19,6 +21,7 @@ function EditProfileModal({ user, onClose, onUpdate }) {
             })
 
             onUpdate(response.data)
+            updateUserData(response.data)
             onClose()
         } catch (error) {
             console.error('Erro ao atualizar perfil:', error)
@@ -33,7 +36,6 @@ function EditProfileModal({ user, onClose, onUpdate }) {
             <div className='modal'>
                 <h2>Editar Perfil</h2>
                 <form onSubmit={handleSubmit}>
-
                     <label>Nome</label>
                     <input
                         type='text'
@@ -58,7 +60,6 @@ function EditProfileModal({ user, onClose, onUpdate }) {
                             {isSaving ? 'Salvando...' : 'Salvar'}
                         </button>
                     </div>
-
                 </form>
             </div>
         </div>

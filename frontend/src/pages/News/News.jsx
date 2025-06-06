@@ -14,7 +14,7 @@ function News() {
     const [news, setNews] = useState(null)
     const [comment, setComment] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const { userId, token } = useAuth()
+    const { userData, token } = useAuth()
 
     useEffect(() => {
         async function fetchNews() {
@@ -167,7 +167,7 @@ function News() {
                                 <div className='comment-content'>{c.content}</div>
                             </div>
 
-                            {token && c.user?._id === userId && (
+                            {token && c.user?._id === userData?.id && (
                                 <button
                                     className='delete-comment-button'
                                     onClick={() => handleDeleteComment(c._id)}
