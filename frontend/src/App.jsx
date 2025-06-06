@@ -19,14 +19,17 @@ import BeCollaborator from './pages/BeCollaborator/BeCollaborator.jsx'
 import AddNews from './pages/AddNews/AddNews.jsx'
 
 function App() {
-  const { token, userData } = useAuth()
+  const { token, userData, isLoadingUserData } = useAuth()
+
   const isLogged = Boolean(token)
   const isCollaborator = userData?.collaborator === true
+
+  if (isLogged && isLoadingUserData) return null
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route element={<Layout />}>
-        {/* públicas */}
+        {/* Públicas */}
         <Route index element={<Home />} />
         <Route path='/news/:id' element={<News />} />
         <Route path='/user-profile/:id' element={<UserProfile />} />
@@ -61,7 +64,11 @@ function App() {
         <Route
           path='/add-news'
           element={
-            isLogged && isCollaborator ? <AddNews /> : <Navigate to='/' replace />
+            isLogged && isCollaborator ? (
+              <AddNews />
+            ) : (
+              <Navigate to='/' replace />
+            )
           }
         />
       </Route>
