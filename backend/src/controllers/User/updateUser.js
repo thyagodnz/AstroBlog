@@ -6,6 +6,10 @@ export async function updateUser(req, res) {
     const { id } = req.params
     const { name, bio, password } = req.body
 
+    if (req.user.id !== id) {
+        return res.status(403).json({ res: 'Você só pode atualizar seu própio perfil' })
+    }
+
     try {
         const updateData = { name, bio }
 

@@ -5,7 +5,6 @@ import api from '../../services/api.js'
 import { useAuth } from '../../contexts/AuthContext.jsx'
 
 function Login() {
-
     const navigate = useNavigate()
     const inputEmail = useRef()
     const inputPassword = useRef()
@@ -19,9 +18,8 @@ function Login() {
             })
 
             if (response.status === 200 && response.data) {
-                const userData = response.data
-                localStorage.setItem('user', JSON.stringify(userData))
-                login(userData)
+                const { token } = response.data
+                login(token)
                 navigate('/')
             }
         } catch (error) {

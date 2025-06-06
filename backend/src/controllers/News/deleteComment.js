@@ -2,11 +2,7 @@ import News from '../../models/News.js'
 
 export async function deleteComment(req, res) {
     const { newsId, commentId } = req.params
-    const userId = req.query.userId
-
-    if (!userId) {
-        return res.status(400).json({ error: 'O ID do usuário é obrigatório' })
-    }
+    const userId = req.user.id 
 
     try {
         const news = await News.findById(newsId)
@@ -33,7 +29,6 @@ export async function deleteComment(req, res) {
         updatedNews.comments.sort((a, b) => b.createdAt - a.createdAt)
 
         res.status(200).json(updatedNews.comments)
-
     } catch (error) {
         res.status(500).json({ error: 'Erro ao deletar comentário', details: error.message })
     }

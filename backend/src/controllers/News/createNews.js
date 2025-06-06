@@ -1,14 +1,13 @@
 import News from '../../models/News.js'
-import User from '../../models/User.js'
 import cloudinary from '../../config/cloudinary.js'
 
 export async function createNews(req, res) {
     try {
-        const { title, author, content, imageDescription } = req.body
-        const user = await User.findById(author)
-        
+        const { title, content, imageDescription } = req.body
+        const user = req.user
+
         if (!user) {
-            return res.status(404).json({ res: 'Usuário não encontrado' })
+            return res.status(401).json({ res: 'Usuário não autenticado' })
         }
 
         if (!user.collaborator) {
@@ -37,7 +36,7 @@ export async function createNews(req, res) {
 
         const newNews = await News.create({
             title,
-            author,
+            author: user._id,
             content: contentArray,
             image: result.secure_url,
             imageDescription

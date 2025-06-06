@@ -5,36 +5,30 @@ import api from '../../services/api.js'
 import { useAuth } from '../../contexts/AuthContext.jsx'
 
 function NewAccount() {
-
     const navigate = useNavigate()
     const inputName = useRef()
     const inputEmail = useRef()
     const inputPassword = useRef()
     const { login } = useAuth()
 
-    async function creatUser() {
+    async function createUser() {
         const name = inputName.current.value
         const email = inputEmail.current.value
         const password = inputPassword.current.value
 
         try {
-            await api.post('/users', { name, email, password })
-            alert('Conta criada com sucesso!')
+            const response = await api.post('/users', { name, email, password })
 
-            const response = await api.post('/login', { email, password })
-
-            if (response.status === 200 && response.data) {
-                const userData = response.data
-                localStorage.setItem('user', JSON.stringify(userData))
-                login(userData)
+            if (response.status === 201 && response.data) {
+                const { token } = response.data
+                login(token)
                 navigate('/')
             } else {
-                alert('Erro ao fazer login automático. Faça login manualmente.')
-                navigate('/login')
+                alert('Erro ao criar conta. Tente novamente.')
             }
         } catch (error) {
-            if (error.response?.data?.message) {
-                alert(error.response.data.message)
+            if (error.response?.data?.res) {
+                alert(error.response.data.res)
             } else {
                 alert('Erro ao criar conta.')
             }
@@ -49,27 +43,35 @@ function NewAccount() {
                 <input
                     className='container-input'
                     placeholder='Nome'
-                    name='nome' type='name'
-                    ref={inputName} />
+                    name='nome'
+                    type='text'
+                    ref={inputName}
+                />
                 <input
                     className='container-input'
                     placeholder='E-mail'
                     name='email'
                     type='email'
-                    ref={inputEmail} />
+                    ref={inputEmail}
+                />
                 <input
                     className='container-input'
                     placeholder='Senha'
                     name='senha'
                     type='password'
-                    ref={inputPassword} />
+                    ref={inputPassword}
+                />
                 <button
                     className='container-button'
                     type='button'
-                    onClick={creatUser}>
+                    onClick={createUser}
+                >
                     Criar
                 </button>
-                <span className='container-link' onClick={() => navigate('/login')} >
+                <span
+                    className='container-link'
+                    onClick={() => navigate('/login')}
+                >
                     Voltar para tela de Login
                 </span>
             </form>

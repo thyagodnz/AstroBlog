@@ -1,5 +1,5 @@
 import User from '../../models/User.js'
-import { formatUser } from '../../utils/formatUser.js'
+import { generateToken } from '../../utils/generateToken.js'
 import bcrypt from 'bcrypt'
 
 export async function loginUser(req, res) {
@@ -18,7 +18,8 @@ export async function loginUser(req, res) {
             return res.status(401).json({ message: 'Senha incorreta' })
         }
 
-        return res.status(200).json(formatUser(user))
+        const token = generateToken(user)
+        return res.status(200).json({ token })
 
     } catch (error) {
         console.error(error)
