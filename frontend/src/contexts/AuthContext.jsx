@@ -11,7 +11,14 @@ export function AuthProvider({ children }) {
         if (token) {
             try {
                 const decoded = jwtDecode(token)
-                setUserId(decoded.id)
+                const currentTime = Date.now() / 1000
+
+                if (decoded.exp && decoded.exp < currentTime) {
+                    console.warn('Sessão expirada')
+                    logout()
+                } else {
+                    setUserId(decoded.id)
+                }
             } catch (error) {
                 console.error('Token inválido:', error)
                 logout()
