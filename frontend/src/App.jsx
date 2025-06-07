@@ -1,10 +1,4 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider,
-  Route,
-  Navigate
-} from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 
 import Layout from './components/Layout.jsx'
 import { useAuth } from './contexts/AuthContext'
@@ -26,54 +20,52 @@ function App() {
 
   if (isLogged && isLoadingUserData) return null
 
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route element={<Layout />}>
-        {/* Públicas */}
-        <Route index element={<Home />} />
-        <Route path='/news/:id' element={<News />} />
-        <Route path='/user-profile/:id' element={<UserProfile />} />
+  const baseRoutes = [
+    { index: true, element: <Home /> },
+    { path: '/news/:id', element: <News /> },
+    { path: '/user-profile/:id', element: <UserProfile /> },
+  ]
 
-        {/* NÃO logados */}
-        <Route
-          path='/login'
-          element={!isLogged ? <Login /> : <Navigate to='/' replace />}
-        />
-        <Route
-          path='/new-account'
-          element={!isLogged ? <NewAccount /> : <Navigate to='/' replace />}
-        />
-        <Route
-          path='/forgot-password'
-          element={!isLogged ? <ForgotPassword /> : <Navigate to='/' replace />}
-        />
+  const publicRoutes = [
+    ...baseRoutes,
+    { path: '/login', element: <Login /> },
+    { path: '/new-account', element: <NewAccount /> },
+    { path: '/forgot-password', element: <ForgotPassword /> },
+    { path: '/be-collaborator', element: <Navigate to="/" replace /> },
+    { path: '/add-news', element: <Navigate to="/" replace /> },
+  ]
 
-        {/* Logados não colaboradores */}
-        <Route
-          path='/be-collaborator'
-          element={
-            isLogged && !isCollaborator ? (
-              <BeCollaborator />
-            ) : (
-              <Navigate to='/' replace />
-            )
-          }
-        />
+  const userRoutes = [
+    ...baseRoutes,
+    { path: '/login', element: <Navigate to="/" replace /> },
+    { path: '/new-account', element: <Navigate to="/" replace /> },
+    { path: '/forgot-password', element: <Navigate to="/" replace /> },
+    { path: '/be-collaborator', element: <BeCollaborator /> },
+    { path: '/add-news', element: <Navigate to="/" replace /> },
+  ]
 
-        {/* Colaboradores */}
-        <Route
-          path='/add-news'
-          element={
-            isLogged && isCollaborator ? (
-              <AddNews />
-            ) : (
-              <Navigate to='/' replace />
-            )
-          }
-        />
-      </Route>
-    )
-  )
+  const collaboratorRoutes = [
+    ...baseRoutes,
+    { path: '/login', element: <Navigate to="/" replace /> },
+    { path: '/new-account', element: <Navigate to="/" replace /> },
+    { path: '/forgot-password', element: <Navigate to="/" replace /> },
+    { path: '/be-collaborator', element: <Navigate to="/" replace /> },
+    { path: '/add-news', element: <AddNews /> },
+  ]
+
+  const routesToUse = !isLogged
+    ? publicRoutes
+    : isCollaborator
+      ? collaboratorRoutes
+      : userRoutes
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: routesToUse,
+    },
+  ])
 
   return <RouterProvider router={router} />
 }

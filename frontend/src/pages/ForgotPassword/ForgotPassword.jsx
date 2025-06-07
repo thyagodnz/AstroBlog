@@ -2,7 +2,7 @@ import './forgotPassword.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import api from '../../services/api'
-import { validateEmail } from '../../utils/validateEmail'
+import { validateEmail } from '../../utils/validateEmail.js'
 
 function ForgotPassword() {
     const navigate = useNavigate()
