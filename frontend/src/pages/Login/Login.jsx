@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
 import api from '../../services/api.js'
 import { useAuth } from '../../contexts/AuthContext.jsx'
-import { validateEmail } from '../../utils/validators.js'
+import { validateEmail } from '../../utils/validateEmail.js'
 
 function Login() {
     const navigate = useNavigate()
