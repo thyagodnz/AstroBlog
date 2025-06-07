@@ -29,8 +29,9 @@
 .verified-icon-g {
     fill: var(--dark-purple);
     margin-left: 5px;
-    vertical-align: middle;
-    font-size: 28px;
+    vertical-align: text-bottom;
+    width: 32px;
+    height: 32px;
 }
 
 .user-email {
