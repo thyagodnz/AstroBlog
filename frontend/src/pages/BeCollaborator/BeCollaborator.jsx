@@ -2,6 +2,7 @@ import './beCollaborator.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext.jsx'
+import { validateCpf } from '../../utils/validateCpf.js'
 import api from '../../services/api'
 
 function BeCollaborator() {
@@ -16,6 +17,10 @@ function BeCollaborator() {
     async function handleSubmit() {
         if (!cpf.trim() || !occupation.trim() || !institution.trim()) {
             return alert('Preencha todos os campos!')
+        }
+
+        if (!validateCpf(cpf)) {
+            return alert('CPF inválido!')
         }
 
         setLoading(true)
