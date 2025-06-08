@@ -10,6 +10,7 @@ routes.get('/users/:id', UserController.getUserById)
 routes.get('/me', auth, UserController.getMe) //🔒
 routes.post('/users', UserController.createUser)
 routes.post('/login', UserController.loginUser)
+routes.post('/logout', auth, UserController.logoutUser) //🔒
 routes.post('/users/forgot-password', UserController.forgotPassword)
 routes.post('/users/be-collaborator', auth, UserController.beCollaborator) //🔒
 routes.put('/users/:id', auth, UserController.updateUser) //🔒

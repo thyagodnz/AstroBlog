@@ -38,9 +38,8 @@ function NewAccount() {
         try {
             const response = await api.post('/users', { name, email, password })
 
-            if (response.status === 201 && response.data) {
-                const { token } = response.data
-                login(token)
+            if (response.status === 201) {
+                await login()
                 navigate('/')
             } else {
                 alert('Erro ao criar conta. Tente novamente.')

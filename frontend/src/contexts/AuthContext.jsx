@@ -1,60 +1,49 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { jwtDecode } from 'jwt-decode'
 import api from '../services/api'
 
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-    const [token, setToken] = useState(() => localStorage.getItem('token') || null)
     const [userData, setUserData] = useState(null)
     const [isLoadingUserData, setIsLoadingUserData] = useState(true)
 
     useEffect(() => {
         const initialize = async () => {
-            if (token) {
-                try {
-                    const decoded = jwtDecode(token)
-                    const currentTime = Date.now() / 1000
-
-                    if (decoded.exp && decoded.exp < currentTime) {
-                        console.warn('Sessão expirada')
-                        logout()
-                    } else {
-                        await fetchUserData()
-                    }
-                } catch (error) {
-                    console.error('Token inválido:', error)
-                    logout()
+            try {
+                await fetchUserData()
+            } catch (error) {
+                if (error.response?.status === 401) {
+                    setUserData(null)
+                } else {
+                    logout(true)
                 }
-            } else {
-                setUserData(null)
+            } finally {
+                setIsLoadingUserData(false)
             }
-
-            setIsLoadingUserData(false)
         }
 
         initialize()
-    }, [token])
+    }, [])
 
     const fetchUserData = async () => {
+        const response = await api.get('/me')
+        setUserData(response.data)
+    }
+
+    const login = async () => {
+        await fetchUserData()
+    }
+
+    const logout = async (silent = false) => {
         try {
-            const response = await api.get(`/me`)
-            setUserData(response.data)
-        } catch (error) {
-            console.error('Erro ao buscar dados do usuário:', error)
-            logout()
+            if (!silent) {
+                await api.post('/logout')
+            }
+        } catch (e) {
+            console.warn('Erro ao fazer logout no servidor:', e)
+        } finally {
+            setUserData(null)
         }
-    }
-
-    const login = (token) => {
-        setToken(token)
-        localStorage.setItem('token', token)
-    }
-
-    const logout = () => {
-        setToken(null)
-        setUserData(null)
-        localStorage.removeItem('token')
     }
 
     const updateUserData = (newData) => {
@@ -62,7 +51,7 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ token, userData, login, logout, updateUserData, isLoadingUserData }}>
+        <AuthContext.Provider value={{ userData, login, logout, updateUserData, isLoadingUserData }}>
             {children}
         </AuthContext.Provider>
     )

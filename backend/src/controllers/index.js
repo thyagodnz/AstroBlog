@@ -3,6 +3,7 @@ import { createUser } from './User/createUser.js'
 import { deleteUser } from './User/deleteUser.js'
 import { updateUser } from './User/updateUser.js'
 import { loginUser } from './User/loginUser.js'
+import { logoutUser } from './User/logoutUser.js'
 import { getUserById } from './User/getUserById.js'
 import { getMe } from './User/getMe.js'
 import { forgotPassword } from './User/forgotPassword.js'
@@ -23,6 +24,7 @@ export const UserController = {
     deleteUser,
     updateUser,
     loginUser,
+    logoutUser,
     getUserById,
     getMe,
     forgotPassword,

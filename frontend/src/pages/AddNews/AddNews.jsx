@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import api from '../../services/api'
 
 function AddNews() {
-    const { token, userData } = useAuth()
+    const { userData } = useAuth()
     const navigate = useNavigate()
 
     const [imageFile, setImageFile] = useState(null)
@@ -32,7 +32,7 @@ function AddNews() {
     }
 
     const handlePublish = async () => {
-        if (!token) {
+        if (!userData) {
             alert('Você precisa estar logado para publicar!')
             navigate('/login')
             return

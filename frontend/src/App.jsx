@@ -13,12 +13,11 @@ import BeCollaborator from './pages/BeCollaborator/BeCollaborator.jsx'
 import AddNews from './pages/AddNews/AddNews.jsx'
 
 function App() {
-  const { token, userData, isLoadingUserData } = useAuth()
-
-  const isLogged = Boolean(token)
+  const { userData, isLoadingUserData } = useAuth()
+  const isLogged = Boolean(userData)
   const isCollaborator = userData?.collaborator === true
 
-  if (isLogged && isLoadingUserData) return null
+  if (isLoadingUserData) return null
 
   const baseRoutes = [
     { index: true, element: <Home /> },

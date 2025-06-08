@@ -12,11 +12,10 @@ export async function createUser(req, res) {
 
         const userExists = await User.findOne({ email })
         if (userExists) {
-            return res.status(409).json({ res: 'E-mail já cadastrado' })
+            return res.status(409).json({ res: 'Já existe um usuário com esse e-mail!' })
         }
 
-        const saltRounds = 10
-        const hashedPassword = await bcrypt.hash(password, saltRounds)
+        const hashedPassword = await bcrypt.hash(password, 10)
 
         const newUser = await User.create({
             name,
@@ -25,7 +24,15 @@ export async function createUser(req, res) {
         })
 
         const token = generateToken(newUser)
-        return res.status(201).json({ token })
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
+        return res.status(201).json({ res: 'Usuário criado com sucesso' })
 
     } catch (error) {
         return res.status(500).json({ res: 'Erro ao criar usuário', error: error.message })

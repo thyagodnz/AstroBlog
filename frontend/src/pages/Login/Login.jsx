@@ -26,9 +26,8 @@ function Login() {
         try {
             const response = await api.post('/login', { email, password })
 
-            if (response.status === 200 && response.data) {
-                const { token } = response.data
-                login(token)
+            if (response.status === 200) {
+                await login()
                 navigate('/')
             } else {
                 alert('Não foi possível fazer login.')
@@ -42,7 +41,7 @@ function Login() {
 
     return (
         <div className='container'>
-            <form className='container-form'>
+            <form className='container-form' onSubmit={e => e.preventDefault()}>
                 <h1 className='container-title'>Fazer login</h1>
 
                 <input

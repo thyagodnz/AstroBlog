@@ -14,7 +14,7 @@ function News() {
     const [news, setNews] = useState(null)
     const [comment, setComment] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const { userData, token } = useAuth()
+    const { userData } = useAuth()
 
     useEffect(() => {
         async function fetchNews() {
@@ -38,7 +38,7 @@ function News() {
 
         if (!comment.trim()) return
 
-        if (!token) {
+        if (!userData) {
             alert('Faça login para adicionar um comentário')
             navigate('/login')
             return
@@ -167,7 +167,7 @@ function News() {
                                 <div className='comment-content'>{c.content}</div>
                             </div>
 
-                            {token && c.user?._id === userData?.id && (
+                            {userData && c.user?._id === userData.id && (
                                 <button
                                     className='delete-comment-button'
                                     onClick={() => handleDeleteComment(c._id)}

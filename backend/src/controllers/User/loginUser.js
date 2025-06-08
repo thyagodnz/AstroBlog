@@ -19,7 +19,15 @@ export async function loginUser(req, res) {
         }
 
         const token = generateToken(user)
-        return res.status(200).json({ token })
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
+        return res.status(200).json({ message: 'Login realizado com sucesso' })
 
     } catch (error) {
         console.error(error)
