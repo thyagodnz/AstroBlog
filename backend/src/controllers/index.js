@@ -6,6 +6,7 @@ import { loginUser } from './User/loginUser.js'
 import { getUserById } from './User/getUserById.js'
 import { getMe } from './User/getMe.js'
 import { forgotPassword } from './User/forgotPassword.js'
+import { beCollaborator } from './User/beCollaborator.js'
 
 import { getNews } from './News/getNews.js'
 import { createNews } from './News/createNews.js'
@@ -24,7 +25,8 @@ export const UserController = {
     loginUser,
     getUserById,
     getMe,
-    forgotPassword
+    forgotPassword,
+    beCollaborator
 }
 
 export const NewsController = {
