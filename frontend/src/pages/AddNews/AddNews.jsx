@@ -65,7 +65,7 @@ function AddNews() {
 
             if (response.status === 201) {
                 alert('Publicação feita com sucesso!')
-                navigate('/')
+                navigate(`/user-profile/${userData.id}`)
             }
         } catch (error) {
             console.error(error)
