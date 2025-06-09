@@ -1,0 +1,22 @@
+#collaborator {
+    background-color: var(--dark-purple);
+}
+
+#collaborator-title {
+    margin-bottom: 20px;
+}
+
+#collaborator-instructions1 {
+    margin-bottom: 20px;
+    color: #ffffffeb;
+}
+
+#collaborator-button {
+    background-color: var(--light-purple);
+}
+
+#collaborator-instructions2 {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: #ffffffeb;
+}

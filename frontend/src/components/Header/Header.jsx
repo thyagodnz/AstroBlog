@@ -1,11 +1,11 @@
 import './header.css'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../contexts/AuthContext.jsx'
 
 function Header() {
     const navigate = useNavigate()
     const location = useLocation()
-    const { user } = useAuth()
+    const { userData } = useAuth()
 
     return (
         <header className='header'>
@@ -13,10 +13,10 @@ function Header() {
 
             {(location.pathname === '/' || location.pathname.startsWith('/news/')) && (
                 <button
-                    className='login-button'
-                    onClick={() => navigate(user ? '/my-profile' : '/login')}
+                    className='header-button'
+                    onClick={() => navigate(userData ? `/user-profile/${userData.id}` : '/login')}
                 >
-                    {user ? 'Meu perfil' : 'Entrar'}
+                    {userData ? 'Meu perfil' : 'Entrar'}
                 </button>
             )}
         </header>

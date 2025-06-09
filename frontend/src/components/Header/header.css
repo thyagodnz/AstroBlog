@@ -2,31 +2,31 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #460260;
+    background-color: var(--dark-purple);
     width: 100%;
     min-height: 55px;
     padding: 0 30px;
     position: sticky;
     top: 0;
     z-index: 1000;
-
-    & h1 {
-        font-family: 'Passion One', sans-serif;
-        font-size: 30px;
-        font-weight: bold;
-        justify-content: center;
-        color: white;
-        cursor: pointer;
-        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-        user-select: none;
-    }
 }
 
-.login-button {
+.header h1 {
+    font-family: 'Passion One', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    user-select: none;
+}
+
+.header-button {
     position: absolute;
     right: 30px;
     background-color: white;
-    color: #460260;
+    color: var(--dark-purple);
     border: none;
     padding: 8px 16px;
     border-radius: 20px;
@@ -36,6 +36,6 @@
     transition: background-color 0.2s ease;
 }
 
-.login-button:hover {
+.header-button:hover {
     opacity: 0.9;
 }

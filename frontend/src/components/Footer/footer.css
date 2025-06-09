@@ -1,18 +1,18 @@
 .footer {
     display: flex;
     justify-content: center;
-    background-color: #460260;
+    background-color: var(--dark-purple);
     align-items: center;
     width: 100%;
     min-height: 25px;
     margin-top: auto;
     position: relative;
     bottom: 0%;
+}
 
-    & p {
-        font-size: 12px;
-        font-weight: lighter;
-        justify-content: center;
-        color: white;
-    }
+.footer p {
+    font-size: 12px;
+    font-weight: lighter;
+    justify-content: center;
+    color: white;
 }

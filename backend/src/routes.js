@@ -1,21 +1,29 @@
 import { Router } from 'express'
-import { getUsers, createUser, deleteUser, updateUser, loginUser } from './controllers/UserController.js'
-import { getNews, createNews, deleteNews, updateNews, getNewsById, addComment, deleteComment } from './controllers/NewsController.js'
+import { UserController, NewsController } from './controllers/index.js'
+import upload from './middlewares/upload.js'
+import { auth } from './middlewares/auth.js'
 
 const routes = Router()
 
-routes.get('/users', getUsers)
-routes.post('/users', createUser)
-routes.post('/login', loginUser)
-routes.put('/users/:id', updateUser)
-routes.delete('/users/:id', deleteUser)
+routes.get('/users', UserController.getUsers)
+routes.get('/users/:id', UserController.getUserById)
+routes.get('/me', auth, UserController.getMe) //🔒
+routes.post('/users', UserController.createUser)
+routes.post('/login', UserController.loginUser)
+routes.post('/logout', auth, UserController.logoutUser) //🔒
+routes.post('/users/forgot-password', UserController.forgotPassword)
+routes.post('/users/be-collaborator', auth, UserController.beCollaborator) //🔒
+routes.put('/users/:id', auth, UserController.updateUser) //🔒
+routes.delete('/users/:id', UserController.deleteUser)
 
-routes.get('/news', getNews)
-routes.get('/news/:id', getNewsById)
-routes.post('/news', createNews)
-routes.post('/news/:id/comments', addComment)
-routes.put('/news/:id', updateNews)
-routes.delete('/news/:id', deleteNews)
-routes.delete('/news/:newsId/comments/:commentId', deleteComment)
+routes.get('/news', NewsController.getNews)
+routes.get('/news/:id', NewsController.getNewsById)
+routes.get('/news/author/:author', NewsController.getNewsByAuthor)
+routes.post('/news', auth, upload.single('image'), NewsController.createNews) //🔒
+routes.put('/news/:id', NewsController.updateNews)
+routes.delete('/news/:id', NewsController.deleteNews)
+
+routes.post('/news/:id/comments', auth, NewsController.addComment) //🔒
+routes.delete('/news/:newsId/comments/:commentId', auth, NewsController.deleteComment) //🔒
 
 export default routes

@@ -1,3 +1,8 @@
+:root {
+  --dark-purple: #460260;
+  --light-purple: #7d70ba;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -47,7 +52,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #7d70ba;
+  background-color: var(--light-purple);
   padding: 50px 30px;
   border-radius: 30px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -73,7 +78,7 @@ body {
 .container-button {
   border: none;
   border-radius: 30px;
-  background-color: #460260;
+  background-color: var(--dark-purple);
   color: #fff;
   font-weight: bold;
   padding: 0 50px;
